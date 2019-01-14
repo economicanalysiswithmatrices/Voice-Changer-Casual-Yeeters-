@@ -48,3 +48,53 @@ classdef VoiceDolorifuge < matlab.apps.AppBase
             Fs = audioInput.SampleRate;
             multiplier = app.SpeedKnob.Value;
             
+            
+            if (app.bits8.Value)
+                nBits = 8;
+            end
+            
+            if (app.bits16.Value)
+                nBits = 16;
+            end
+            
+            if (app.bits24.Value)
+                nBits = 24;
+            end
+            
+            amplitude = app.VolumeKnob.Value;
+            
+            if (app.OnButton.Value)
+                octFilt = octaveFilter(500,'1 octave','SampleRate', 10000);
+                y = octFilt(getaudiodata(audioInput));
+            end
+            
+            if (app.OffButton.Value)
+                y = getaudiodata(audioInput);
+            end
+            
+   
+            
+            sound(y*amplitude, Fs*multiplier, nBits);
+            
+        end
+
+        % Button pushed function: 
+        % BestappcTorvaltzandWikiHowboardofdirectorsButton
+        function WikiHow(app, event)
+            
+        end
+    end
+
+    % App initialization and construction
+    methods (Access = private)
+
+        % Create UIFigure and components
+        function createComponents(app)
+
+            % Create UIFigure
+            app.UIFigure = uifigure;
+            app.UIFigure.Position = [100 100 640 480];
+            app.UIFigure.Name = 'UI Figure';
+
+            % Create VoiceModulator9000Panel
+            app.VoiceModulator9000Panel = uipanel(app.UIFigure);
