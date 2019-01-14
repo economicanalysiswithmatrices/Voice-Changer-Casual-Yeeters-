@@ -77,12 +77,6 @@ classdef VoiceDolorifuge < matlab.apps.AppBase
             sound(y*amplitude, Fs*multiplier, nBits);
             
         end
-
-        % Button pushed function: 
-        % BestappcTorvaltzandWikiHowboardofdirectorsButton
-        function WikiHow(app, event)
-            
-        end
     end
 
     % App initialization and construction
@@ -96,5 +90,158 @@ classdef VoiceDolorifuge < matlab.apps.AppBase
             app.UIFigure.Position = [100 100 640 480];
             app.UIFigure.Name = 'UI Figure';
 
-            % Create VoiceModulator9000Panel
-            app.VoiceModulator9000Panel = uipanel(app.UIFigure);
+            % Create VoiceDolorifuge9000Panel
+            app.VoiceDolorifuge9000Panel = uipanel(app.UIFigure);
+            app.VoiceDolorifuge9000Panel.TitlePosition = 'centertop';
+            app.VoiceDolorifuge9000Panel.Title = 'Voice Dolorifuge 9000™';
+            app.VoiceDolorifuge9000Panel.BackgroundColor = [0.102 0.5412 0.9216];
+            app.VoiceDolorifuge9000Panel.FontName = 'Times New Roman';
+            app.VoiceDolorifuge9000Panel.FontSize = 40;
+            app.VoiceDolorifuge9000Panel.Position = [1 1 640 480];
+
+            % Create RecordButton
+            app.RecordButton = uibutton(app.VoiceDolorifuge9000Panel, 'push');
+            app.RecordButton.ButtonPushedFcn = createCallbackFcn(app, @RecordButtonPushed, true);
+            app.RecordButton.BackgroundColor = [0.8902 0.0314 0.0314];
+            app.RecordButton.FontSize = 17;
+            app.RecordButton.FontWeight = 'bold';
+            app.RecordButton.Position = [281 353 146 46];
+            app.RecordButton.Text = 'Record';
+
+            % Create PlayButton
+            app.PlayButton = uibutton(app.VoiceDolorifuge9000Panel, 'push');
+            app.PlayButton.ButtonPushedFcn = createCallbackFcn(app, @PlayButtonPushed, true);
+            app.PlayButton.BackgroundColor = [0.8902 0.0314 0.0314];
+            app.PlayButton.FontSize = 17;
+            app.PlayButton.FontWeight = 'bold';
+            app.PlayButton.Position = [127 35 192 76];
+            app.PlayButton.Text = 'Play';
+
+            % Create SpeedKnobLabel
+            app.SpeedKnobLabel = uilabel(app.VoiceDolorifuge9000Panel);
+            app.SpeedKnobLabel.HorizontalAlignment = 'center';
+            app.SpeedKnobLabel.FontSize = 13;
+            app.SpeedKnobLabel.FontWeight = 'bold';
+            app.SpeedKnobLabel.Position = [56.5 300 45 22];
+            app.SpeedKnobLabel.Text = 'Speed';
+
+            % Create SpeedKnob
+            app.SpeedKnob = uiknob(app.VoiceDolorifuge9000Panel, 'continuous');
+            app.SpeedKnob.Limits = [0.5 5];
+            app.SpeedKnob.MajorTickLabels = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+            app.SpeedKnob.Position = [49 209 60 60];
+            app.SpeedKnob.Value = 1;
+
+            % Create DurationsLabel
+            app.DurationsLabel = uilabel(app.VoiceDolorifuge9000Panel);
+            app.DurationsLabel.HorizontalAlignment = 'right';
+            app.DurationsLabel.FontSize = 13;
+            app.DurationsLabel.FontWeight = 'bold';
+            app.DurationsLabel.Position = [31 351 97 50];
+            app.DurationsLabel.Text = 'Duration (s)';
+
+            % Create DurationsTextArea
+            app.DurationsTextArea = uitextarea(app.VoiceDolorifuge9000Panel);
+            app.DurationsTextArea.Position = [136 365 80 22];
+            app.DurationsTextArea.Value = {'10'; ''; ''; ''};
+
+            % Create BitsPerSampleButtonGroup
+            app.BitsPerSampleButtonGroup = uibuttongroup(app.VoiceDolorifuge9000Panel);
+            app.BitsPerSampleButtonGroup.BorderType = 'none';
+            app.BitsPerSampleButtonGroup.TitlePosition = 'centertop';
+            app.BitsPerSampleButtonGroup.Title = 'Bits Per Sample';
+            app.BitsPerSampleButtonGroup.BackgroundColor = [0.102 0.5412 0.9216];
+            app.BitsPerSampleButtonGroup.FontWeight = 'bold';
+            app.BitsPerSampleButtonGroup.FontSize = 13;
+            app.BitsPerSampleButtonGroup.Position = [194 191 123 132];
+
+            % Create bits8
+            app.bits8 = uiradiobutton(app.BitsPerSampleButtonGroup);
+            app.bits8.Text = '8 bits';
+            app.bits8.Position = [11 74 58 22];
+            app.bits8.Value = true;
+
+            % Create bits16
+            app.bits16 = uiradiobutton(app.BitsPerSampleButtonGroup);
+            app.bits16.Text = '16 bits';
+            app.bits16.Position = [11 46 58 22];
+
+            % Create bits24
+            app.bits24 = uiradiobutton(app.BitsPerSampleButtonGroup);
+            app.bits24.Text = '24 bits';
+            app.bits24.Position = [11 18 58 22];
+
+            % Create VolumeKnobLabel
+            app.VolumeKnobLabel = uilabel(app.VoiceDolorifuge9000Panel);
+            app.VolumeKnobLabel.HorizontalAlignment = 'center';
+            app.VolumeKnobLabel.FontSize = 13;
+            app.VolumeKnobLabel.FontWeight = 'bold';
+            app.VolumeKnobLabel.Position = [391.5 301 51 22];
+            app.VolumeKnobLabel.Text = 'Volume';
+
+            % Create VolumeKnob
+            app.VolumeKnob = uiknob(app.VoiceDolorifuge9000Panel, 'continuous');
+            app.VolumeKnob.Limits = [0.01 50];
+            app.VolumeKnob.MajorTicks = [0.01 4 10 20.01 30.01 40.01 50];
+            app.VolumeKnob.MajorTickLabels = {'0', '5', '10', '20', '30', '40', '50'};
+            app.VolumeKnob.Position = [386 210 63 63];
+            app.VolumeKnob.Value = 4;
+
+            % Create OctaveFilterButtonGroup
+            app.OctaveFilterButtonGroup = uibuttongroup(app.VoiceDolorifuge9000Panel);
+            app.OctaveFilterButtonGroup.BorderType = 'none';
+            app.OctaveFilterButtonGroup.TitlePosition = 'centertop';
+            app.OctaveFilterButtonGroup.Title = 'Octave Filter';
+            app.OctaveFilterButtonGroup.BackgroundColor = [0.102 0.5412 0.9216];
+            app.OctaveFilterButtonGroup.FontWeight = 'bold';
+            app.OctaveFilterButtonGroup.FontSize = 13;
+            app.OctaveFilterButtonGroup.Position = [499 191 123 132];
+
+            % Create OnButton
+            app.OnButton = uiradiobutton(app.OctaveFilterButtonGroup);
+            app.OnButton.Text = 'On';
+            app.OnButton.Position = [11 66 38 22];
+
+            % Create OffButton
+            app.OffButton = uiradiobutton(app.OctaveFilterButtonGroup);
+            app.OffButton.Text = 'Off';
+            app.OffButton.Position = [11 38 38 22];
+            app.OffButton.Value = true;
+
+            % Create BestappcTorvaltzandWikiHowboardofdirectorsButton
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton = uibutton(app.VoiceDolorifuge9000Panel, 'push');
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton.Icon = 'Wed.jpg';
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton.IconAlignment = 'center';
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton.HorizontalAlignment = 'right';
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton.VerticalAlignment = 'top';
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton.BackgroundColor = [0.3922 0.8314 0.0745];
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton.FontWeight = 'bold';
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton.Position = [426 18 187 142];
+            app.BestappcTorvaltzandWikiHowboardofdirectorsButton.Text = {'"Best app"'; '(c) Torvaltz'; 'and WikiHow'; 'board of'; 'directors'; ''};
+        end
+    end
+
+    methods (Access = public)
+
+        % Construct app
+        function app = VoiceDolorifuge
+
+            % Create and configure components
+            createComponents(app)
+
+            % Register the app with App Designer
+            registerApp(app, app.UIFigure)
+
+            if nargout == 0
+                clear app
+            end
+        end
+
+        % Code that executes before app deletion
+        function delete(app)
+
+            % Delete UIFigure when app is deleted
+            delete(app.UIFigure)
+        end
+    end
+end
