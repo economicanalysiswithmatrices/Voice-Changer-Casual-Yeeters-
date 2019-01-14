@@ -1,0 +1,50 @@
+classdef VoiceDolorifuge < matlab.apps.AppBase
+
+    % Properties that correspond to app components
+    properties (Access = public)
+        UIFigure                  matlab.ui.Figure
+        VoiceDolorifuge9000Panel  matlab.ui.container.Panel
+        RecordButton              matlab.ui.control.Button
+        PlayButton                matlab.ui.control.Button
+        SpeedKnobLabel            matlab.ui.control.Label
+        SpeedKnob                 matlab.ui.control.Knob
+        DurationsLabel            matlab.ui.control.Label
+        DurationsTextArea         matlab.ui.control.TextArea
+        BitsPerSampleButtonGroup  matlab.ui.container.ButtonGroup
+        bits8                     matlab.ui.control.RadioButton
+        bits16                    matlab.ui.control.RadioButton
+        bits24                    matlab.ui.control.RadioButton
+        VolumeKnobLabel           matlab.ui.control.Label
+        VolumeKnob                matlab.ui.control.Knob
+        OctaveFilterButtonGroup   matlab.ui.container.ButtonGroup
+        OnButton                  matlab.ui.control.RadioButton
+        OffButton                 matlab.ui.control.RadioButton
+        BestappcTorvaltzandWikiHowboardofdirectorsButton  matlab.ui.control.Button
+    end
+
+    methods (Access = private)
+
+        % Button pushed function: RecordButton
+        function RecordButtonPushed(app, event)
+            audioInput = audiorecorder;
+            
+            duration = str2double(app.DurationsTextArea.Value{1});
+            
+            msgbox('Recording your beautiful voice now');
+            
+            recordblocking(audioInput, duration);
+            
+            msgbox('Recording.exe stopped');
+            
+            assignin('base', 'audioInput', audioInput);
+        end
+
+        % Button pushed function: PlayButton
+        function PlayButtonPushed(app, event)
+
+            audioInput = evalin('base', 'audioInput');
+            
+            
+            Fs = audioInput.SampleRate;
+            multiplier = app.SpeedKnob.Value;
+            
